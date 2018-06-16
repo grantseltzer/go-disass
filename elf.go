@@ -2,23 +2,55 @@ package main
 
 import (
 	"debug/elf"
-	"strings"
+	"errors"
+	"fmt"
+
+	"github.com/bnagy/gapstone"
 )
 
-// getExecutableSections will return a slice of elf.Section's
-// that have the SHF_EXECINSTR flag
-func getExecutableSections(path string) ([]*elf.Section, error) {
+var (
+	// ErrSymbolNotFound is returned if a symbol can't be found by name
+	ErrSymbolNotFound = errors.New("symbol not found")
+)
+
+// Disassembler wraps elf.File objects and the dissasembler engine
+type Disassembler struct {
+	*elf.File
+	*gapstone.Engine
+}
+
+// NewDisassembler returns a pointer to a new Disassembler
+func NewDisassembler() *Disassembler {
+	return &Disassembler{}
+}
+
+// Open will load an ELF pointed at by 'path' into memory
+func (e *Disassembler) Open(path string) error {
+
 	f, err := elf.Open(path)
 	if err != nil {
-		return nil, err
+		return fmt.Errorf("error while opening file %s: %+s", path, err.Error())
 	}
 
-	executableSections := []*elf.Section{}
-	for _, section := range f.Sections {
-		if strings.Contains(section.Flags.String(), "SHF_EXECINSTR") {
-			executableSections = append(executableSections, section)
-		}
+	// Close previously loaded file if it exists
+	if e.File != nil {
+		e.File.Close()
 	}
 
-	return executableSections, nil
+	e.File = f
+
+	return nil
+}
+
+// StartEngineX86_64 init's the Disassembler with a new x86_64 capstone engine
+func (e *Disassembler) StartEngineX86_64() error {
+	engine, err := gapstone.New(
+		gapstone.CS_ARCH_X86,
+		gapstone.CS_MODE_64,
+	)
+	if err != nil {
+		return err
+	}
+	e.Engine = &engine
+	return nil
 }
