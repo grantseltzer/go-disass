@@ -15,8 +15,8 @@ var (
 
 // Disassembler wraps elf.File objects and the dissasembler engine
 type Disassembler struct {
-	*elf.File
-	*gapstone.Engine
+	f *elf.File
+	e *gapstone.Engine
 }
 
 // NewDisassembler returns a pointer to a new Disassembler
@@ -25,7 +25,7 @@ func NewDisassembler() *Disassembler {
 }
 
 // Open will load an ELF pointed at by 'path' into memory
-func (e *Disassembler) Open(path string) error {
+func (d *Disassembler) Open(path string) error {
 
 	f, err := elf.Open(path)
 	if err != nil {
@@ -33,17 +33,17 @@ func (e *Disassembler) Open(path string) error {
 	}
 
 	// Close previously loaded file if it exists
-	if e.File != nil {
-		e.File.Close()
+	if d.f != nil {
+		d.f.Close()
 	}
 
-	e.File = f
+	d.f = f
 
 	return nil
 }
 
 // StartEngineX86_64 init's the Disassembler with a new x86_64 capstone engine
-func (e *Disassembler) StartEngineX86_64() error {
+func (d *Disassembler) StartEngineX86_64() error {
 	engine, err := gapstone.New(
 		gapstone.CS_ARCH_X86,
 		gapstone.CS_MODE_64,
@@ -51,6 +51,6 @@ func (e *Disassembler) StartEngineX86_64() error {
 	if err != nil {
 		return err
 	}
-	e.Engine = &engine
+	d.e = &engine
 	return nil
 }
