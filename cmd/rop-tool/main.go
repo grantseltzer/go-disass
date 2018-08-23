@@ -42,11 +42,13 @@ func main() {
 		for instructionLength := 1; instructionLength < 9; instructionLength++ {
 			instructions, err := disassembler.e.Disasm(textData[location-instructionLength:location], 0, 0x0)
 			if err == nil {
-				//TODO: Calculate actual memory location range
-				fmt.Printf("\n\nINSTRUCTIONS FOUND AT LOCATION %d. LENGTH %d\n", location, instructionLength)
+
+				instructionAddress := textSection.Addr + uint64(location-instructionLength)
+
+				fmt.Printf("\n\nINSTRUCTIONS FOUND AT LOCATION 0x%x, SIZE %d\n", instructionAddress, instructionLength)
 				fmt.Println("________________________________________________")
 				for _, ins := range instructions {
-					printInstruction(ins)
+					printInstruction(instructionAddress, ins)
 				}
 				fmt.Println("________________________________________________")
 			}
@@ -54,6 +56,6 @@ func main() {
 	}
 }
 
-func printInstruction(ins gapstone.Instruction) {
-	fmt.Printf("0x%x:\t%s\t\t%s\n", ins.Address, ins.Mnemonic, ins.OpStr)
+func printInstruction(startingAddress uint64, ins gapstone.Instruction) {
+	fmt.Printf("0x%x:\t%s\t\t%s\n", startingAddress+uint64(ins.Address), ins.Mnemonic, ins.OpStr)
 }
