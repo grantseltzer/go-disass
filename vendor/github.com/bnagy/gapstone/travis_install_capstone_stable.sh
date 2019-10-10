@@ -2,7 +2,7 @@
 
 set -ex
 mkdir -p $HOME/src && cd $HOME/src
-wget https://github.com/aquynh/capstone/archive/3.0.3.tar.gz
-tar -zxvf 3.0.3.tar.gz
-cd capstone-3.0.3 && ./make.sh && sudo make install
+git clone --depth=50 --branch=4.0.1 https://github.com/aquynh/capstone.git && cd capstone
+echo `git log | head`
+PREFIX=$HOME/capstone make && PREFIX=$HOME/capstone make install
 cd $TRAVIS_BUILD_DIR

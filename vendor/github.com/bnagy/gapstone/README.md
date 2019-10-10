@@ -1,10 +1,24 @@
 gapstone
 ====
 
+
+RETIRED
+===
+
+This binding is no longer maintained. It has been forked at https://github.com/knightsc/gapstone
+
+Thanks!
+
+ben
+
+## OLD README FOLLOWS
+
 Gapstone is a Go binding for the Capstone disassembly library.
 
-## CURRENT UPSTREAM VERSION: 3.0.3
+## CURRENT UPSTREAM VERSION: 4.0.1
 [![Build Status](https://travis-ci.org/bnagy/gapstone.svg?branch=master)](https://travis-ci.org/bnagy/gapstone)
+
+(head over to the next branch for the newest stuff)
 
 SUMMARY
 ===
@@ -68,8 +82,10 @@ Here's "Hello World":
 ```go
 package main
 
-import "github.com/bnagy/gapstone"
-import "log"
+import (
+    "github.com/bnagy/gapstone"
+    "log"
+)
 
 func main() {
 

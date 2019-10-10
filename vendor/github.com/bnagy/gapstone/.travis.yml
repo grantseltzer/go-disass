@@ -1,12 +1,21 @@
 language: go
 go:
-  - 1.4.2
+  - 1.4.3
+  - 1.5.4
+  - 1.6.4
+  - 1.7.6
+  - 1.8.7
+  - 1.9.7
+  - 1.10.8
   - tip
-sudo: required
+sudo: false
 before_install:
   - ./travis_install_capstone_stable.sh
-  - ./genconst $HOME/src/capstone-3.0.3/bindings/python/capstone
-  - ./genspec $HOME/src/capstone-3.0.3/tests
+  - export LIBRARY_PATH=$HOME/capstone/lib
+  - export C_INCLUDE_PATH=$HOME/capstone/include
+  - export LD_LIBRARY_PATH=$HOME/capstone/lib
+  - ./genconst $HOME/src/capstone/bindings/python/capstone
+  - ./genspec $HOME/src/capstone/tests
 notifications:
   email:
     recipients:

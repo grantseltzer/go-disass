@@ -16,8 +16,11 @@ package gapstone
 // #include <stdlib.h>
 // #include <capstone/capstone.h>
 import "C"
-import "unsafe"
-import "reflect"
+
+import (
+	"reflect"
+	"unsafe"
+)
 
 // Accessed via insn.Xcore.XXX
 type XcoreInstruction struct {
@@ -103,11 +106,11 @@ func fillXcoreHeader(raw C.cs_insn, insn *Instruction) {
 	insn.Xcore = &xcore
 }
 
-func decomposeXcore(raws []C.cs_insn) []Instruction {
+func decomposeXcore(e *Engine, raws []C.cs_insn) []Instruction {
 	decomposed := []Instruction{}
 	for _, raw := range raws {
 		decomp := new(Instruction)
-		fillGenericHeader(raw, decomp)
+		fillGenericHeader(e, raw, decomp)
 		fillXcoreHeader(raw, decomp)
 		decomposed = append(decomposed, *decomp)
 	}

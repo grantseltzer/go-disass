@@ -16,10 +16,11 @@ package gapstone
 // #include <stdlib.h>
 // #include <capstone/capstone.h>
 import "C"
-import "unsafe"
-import "reflect"
 
-// import "fmt"
+import (
+	"reflect"
+	"unsafe"
+)
 
 // Accessed via insn.SysZ.XXX
 type SysZInstruction struct {
@@ -106,11 +107,11 @@ func fillSysZHeader(raw C.cs_insn, insn *Instruction) {
 	insn.SysZ = &sysz
 }
 
-func decomposeSysZ(raws []C.cs_insn) []Instruction {
+func decomposeSysZ(e *Engine, raws []C.cs_insn) []Instruction {
 	decomposed := []Instruction{}
 	for _, raw := range raws {
 		decomp := new(Instruction)
-		fillGenericHeader(raw, decomp)
+		fillGenericHeader(e, raw, decomp)
 		fillSysZHeader(raw, decomp)
 		decomposed = append(decomposed, *decomp)
 	}
