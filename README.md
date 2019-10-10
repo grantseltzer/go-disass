@@ -8,4 +8,6 @@ This repository contains:
 
 See associated blog post [here](https://www.grant.pizza/blog/dissecting-go-binaries)
 
-__NOTE: Tools, documentation, and tests are currently a work in progress__
+### Dependencies
+
+Requires `capstone` and `capstone-devel` (Check your distro listings)
