@@ -10,4 +10,8 @@ See associated blog post [here](https://www.grant.pizza/blog/dissecting-go-binar
 
 ### Dependencies
 
-Requires `capstone` and `capstone-devel` (Check your distro listings)
+Requires `capstone` and `capstone-devel`
+
+Syscall-accumulate requires `ausyscall`
+
+(Check your distro listings)
