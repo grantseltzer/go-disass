@@ -6,6 +6,8 @@ This repository contains:
 
 2) rop-tool - a tool that finds locations of rop-gadgets in a x86_64 ELF binary and prints to stdout
 
+3) syscall-accumulate - a tool that finds all directreferencesto syscallsin a x86_64 ELFbinary and prints the list to stdout.
+
 See associated blog post [here](https://www.grant.pizza/blog/dissecting-go-binaries)
 
 ### Dependencies
